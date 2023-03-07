@@ -1,6 +1,9 @@
 const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
+const clearBtn = document.getElementById('clear');
+const filterBtn = document.getElementById('filter');
+const items = itemList.querySelectorAll('li');
 
 function addItem(e){
    e.preventDefault();
@@ -11,6 +14,8 @@ function addItem(e){
       return;
    }
 
+   
+
    //create Listitem
   const li =  document.createElement('li');
   li.appendChild(document.createTextNode(newItem));
@@ -18,6 +23,8 @@ function addItem(e){
   const button = createButton('remove-item btn-link text-red');
   li.appendChild(button);
   itemList.appendChild(li);
+
+  clearUI();
   itemInput.value = '';
 
 
@@ -32,12 +39,62 @@ function addItem(e){
   function createIcon (classes){
    const icon = document.createElement('i')
    icon.className = classes;
-   return icon;
+   return icon;  
   }
 
 }
 
+function deleteItem(e){
+if(e.target.parentElement.classList.contains('remove-item')){
+  e.target.parentElement.parentElement.remove()
+}
+
+
+}
+
+function cleared (){
+  // itemList.innerHTML =''
+
+  while(itemList.firstChild){
+    itemList.removeChild(itemList.firstChild)
+  }
+}
+
+
+function filtered(e){
+  // console.log(e.target.value);
+
+  const text = e.target.value.toLowerCase();
+  const items = itemList.querySelectorAll('li');
+  
+  items.forEach((item)=>{
+    const itemName = item.firstChild.textContent.toLowerCase();
+    if(itemName.indexOf(text)!==-1){
+      item.style.display = 'flex'
+      
+    }else{
+      item.style.display = 'none'
+    }
+  });
+
+}
+
+function clearUI (){
+  const items = itemList.querySelectorAll('li');
+  if(items.length === 0){
+    clearBtn.style.display = 'none';
+    filterBtn.style.display = 'none';
+  }else{
+     clearBtn.style.display = 'block';
+    filterBtn.style.display = 'block';
+  }
+}
 
 
 
 itemForm.addEventListener('submit', addItem);
+itemList.addEventListener('click', deleteItem);
+clearBtn.addEventListener('click', cleared);
+filterBtn.addEventListener('input', filtered);
+
+clearUI()
