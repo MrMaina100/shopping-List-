@@ -17,15 +17,41 @@ function addItem(e){
    
 
    //create Listitem
-  const li =  document.createElement('li');
-  li.appendChild(document.createTextNode(newItem));
+   addItemToDom(newItem);
+
+   addItemToLocal(newItem);
+ 
+
+  clearUI();
+  itemInput.value = '';
+
+  
+function addItemToDom(item){
+ 
+   const li =  document.createElement('li');
+  li.appendChild(document.createTextNode(item));
 
   const button = createButton('remove-item btn-link text-red');
   li.appendChild(button);
   itemList.appendChild(li);
+}
 
-  clearUI();
-  itemInput.value = '';
+function addItemToLocal(item){
+
+  let addedlocal;
+
+  if(localStorage.getItem('items')=== null){
+    addedlocal = [];
+  }else{
+    addedlocal = JSON.parse(localStorage.getItem('items'))
+  }
+
+  addedlocal.push(item);
+
+  localStorage.setItem('items', JSON.stringify(addedlocal))
+
+
+}
 
 
   function createButton (classes){
@@ -43,6 +69,7 @@ function addItem(e){
   }
 
 }
+
 
 function deleteItem(e){
 if(e.target.parentElement.classList.contains('remove-item')){
@@ -97,4 +124,4 @@ itemList.addEventListener('click', deleteItem);
 clearBtn.addEventListener('click', cleared);
 filterBtn.addEventListener('input', filtered);
 
-clearUI()
+clearUI();
