@@ -49,7 +49,7 @@ function removeItems (e){
   if(e.target.parentElement.classList.contains('remove-item')){
     e.target.parentElement.parentElement.remove();
 
-    checkUI()
+    clearUI()
 
 
   }
@@ -80,10 +80,34 @@ function clearUI (){
 
 }
 
+function filterItem (e){
+
+  const texts = e.target.value.toLowerCase();
+
+  const theItems = item.querySelectorAll('li');
+
+  theItems.forEach((itm)=>{
+    const item = itm.firstChild.textContent.toLowerCase();
+    // console.log(item);
+    if(item.indexOf(texts)!=-1){
+
+      itm.style.display = 'flex';
+
+    }else{
+     itm.style.display = 'none';
+    }
+
+
+  });
+
+  
+}
+
 
 
 form.addEventListener('submit', addItems);
 item.addEventListener('click', removeItems);
 clearBtn.addEventListener('click', clearAll);
+filterBtn.addEventListener('input', filterItem);
 
 clearUI()
