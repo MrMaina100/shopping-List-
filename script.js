@@ -18,19 +18,46 @@ function addItems (e){
     
   }
 
- const li =  document.createElement('li');
- li.appendChild(document.createTextNode(newValue.value));
-//  console.log(li);
+  addItemsToDom(newValue);
+  addItemsToLocalStorage(newValue);
 
-const button = createButton('remove-item btn-link text-red');
-li.appendChild(button);
-item.appendChild(li);
-clearUI();
-const icon = createIcon('fa-solid fa-xmark');
-button.appendChild(icon);
-item.value = '';
-
+  input.value = '';
  
+ clearUI();
+
+}
+
+
+function addItemsToDom(items){
+ 
+ const li =  document.createElement('li');
+ li.appendChild(document.createTextNode(items.value));
+ //  console.log(li);
+
+ const button = createButton('remove-item btn-link text-red');
+ li.appendChild(button);
+ item.appendChild(li);
+ const icon = createIcon('fa-solid fa-xmark');
+ button.appendChild(icon);
+
+}
+
+function addItemsToLocalStorage(itm){
+  let itemsFromStorage;
+
+  if(localStorage.getItem('items') === null){
+    itemsFromStorage = [];
+  }else {
+    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+  }
+
+  itemsFromStorage.push(itm);
+
+  // JSON.stringify(itemsFromStorage);
+  //convert to JSON string and set to local storage 
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+  
+
 }
 
 function createButton (classes){
