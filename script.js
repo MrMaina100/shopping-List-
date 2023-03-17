@@ -4,15 +4,21 @@ const item = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const filterBtn = document.getElementById('filter')
 
+function displayItems(){
+  const itemsFromStorage = getItemsFromStorage();
+ itemsFromStorage.forEach((itm) => addItemsToDom(itm));
 
+
+  clearUI()
+}
 
 
 
 function addItems (e){
   e.preventDefault();
 
-  const newValue = input;
-  if(newValue.value === ''){
+  const newValue = input.value;
+  if(newValue === ''){
     alert('Please add an item');
    
     
@@ -23,7 +29,7 @@ function addItems (e){
 
   input.value = '';
  
- clearUI();
+  clearUI();
 
 }
 
@@ -31,7 +37,7 @@ function addItems (e){
 function addItemsToDom(items){
  
  const li =  document.createElement('li');
- li.appendChild(document.createTextNode(items.value));
+ li.appendChild(document.createTextNode(items));
  //  console.log(li);
 
  const button = createButton('remove-item btn-link text-red');
@@ -42,23 +48,8 @@ function addItemsToDom(items){
 
 }
 
-function addItemsToLocalStorage(itm){
-  let itemsFromStorage;
 
-  if(localStorage.getItem('items') === null){
-    itemsFromStorage = [];
-  }else {
-    itemsFromStorage = JSON.parse(localStorage.getItem('items'));
-  }
 
-  itemsFromStorage.push(itm);
-
-  // JSON.stringify(itemsFromStorage);
-  //convert to JSON string and set to local storage 
-  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
-  
-
-}
 
 function createButton (classes){
   const button = document.createElement('button');
@@ -71,6 +62,29 @@ function createIcon(classes){
   icon.className = classes;
   return icon
 }
+
+
+
+function addItemsToLocalStorage(itm1){
+  const itemsFromStorage = getItemsFromStorage();
+
+  itemsFromStorage.push(itm1);
+  //convert to JSON string and set to local storage 
+  localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+}
+function getItemsFromStorage(){
+   let itemsFromStorage;
+
+  if(localStorage.getItem('items') === null){
+    itemsFromStorage = [];
+  }else {
+    itemsFromStorage = JSON.parse(localStorage.getItem('items'))
+  }
+  
+  return itemsFromStorage;
+
+}
+
 
 function removeItems (e){
   if(e.target.parentElement.classList.contains('remove-item')){
@@ -136,5 +150,6 @@ form.addEventListener('submit', addItems);
 item.addEventListener('click', removeItems);
 clearBtn.addEventListener('click', clearAll);
 filterBtn.addEventListener('input', filterItem);
+document.addEventListener('DOMContentLoaded', displayItems);
 
 clearUI()
