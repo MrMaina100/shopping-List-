@@ -21,7 +21,8 @@ function addItems (e){
 
   const newValue = input.value;
   if(newValue === ''){
-    alert('Please add an item');
+    // alert('Please add an item');
+    errorAlert('please add an item', );
     return;
    
     
@@ -199,6 +200,17 @@ function filterItem (e){
   });
 
   
+}
+
+
+//custom alert 
+const errorAlert = (message,)=>{
+  const div = document.createElement('div');
+  div.classList.add('err');
+  div.appendChild(document.createTextNode(message));
+  document.querySelector('#errormessage').appendChild(div);
+
+  setTimeout(()=>div.remove(),4000);
 }
 
 
